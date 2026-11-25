@@ -1,0 +1,45 @@
+# Open Source LLMs Directory (developer-assistants/open-source-llms)
+
+> Verified 2026 catalog of 26 open source LLMs and free large language models compared by parameter count, VRAM requirement, context window, license tier, and inference runtime.
+
+## Primary URLs
+- Web Directory & VRAM Calculator: https://developer-assistants.github.io/open-source-llms/
+- GitHub Repository & Python CLI: https://github.com/developer-assistants/open-source-llms
+- Machine-Readable Dataset (JSON): https://developer-assistants.github.io/open-source-llms/models.json
+
+## Comparison Guides
+- Best Open Source LLM by Workload: https://developer-assistants.github.io/open-source-llms/best-open-source-llm.html
+- Free Large Language Models (Commercial-Ready): https://developer-assistants.github.io/open-source-llms/free-large-language-models.html
+- Local LLMs by VRAM (8 GB to 80 GB): https://developer-assistants.github.io/open-source-llms/local-llms-by-vram.html
+- Open Source Coding LLMs: https://developer-assistants.github.io/open-source-llms/open-source-coding-llms.html
+- Open Source Reasoning LLMs: https://developer-assistants.github.io/open-source-llms/open-source-reasoning-llms.html
+- Open Source LLM Licenses Explained: https://developer-assistants.github.io/open-source-llms/open-source-llm-licenses.html
+- Self-Hosted LLM Inference (Ollama, llama.cpp, vLLM, SGLang): https://developer-assistants.github.io/open-source-llms/self-hosted-llm-inference.html
+
+## Indexed Models
+- DeepSeek-R1 (DeepSeek): 671B (37B active), 128K context, ~380 GB VRAM (Q4), MIT (https://huggingface.co/deepseek-ai/DeepSeek-R1)
+- DeepSeek-V3.1 (DeepSeek): 671B (37B active), 128K context, ~380 GB VRAM (Q4), MIT (https://huggingface.co/deepseek-ai/DeepSeek-V3.1)
+- DeepSeek-R1-Distill-Qwen-32B (DeepSeek): 32.8B, 128K context, ~20 GB VRAM (Q4), MIT (https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B)
+- Qwen3-235B-A22B (Alibaba Qwen): 235B (22B active), 128K context, ~135 GB VRAM (Q4), Apache-2.0 (https://huggingface.co/Qwen/Qwen3-235B-A22B)
+- Qwen3-32B (Alibaba Qwen): 32.8B, 128K context, ~20 GB VRAM (Q4), Apache-2.0 (https://huggingface.co/Qwen/Qwen3-32B)
+- Qwen3-Coder-480B-A35B (Alibaba Qwen): 480B (35B active), 256K context, ~270 GB VRAM (Q4), Apache-2.0 (https://huggingface.co/Qwen/Qwen3-Coder-480B-A35B-Instruct)
+- Qwen3-8B (Alibaba Qwen): 8.2B, 128K context, ~5.5 GB VRAM (Q4), Apache-2.0 (https://huggingface.co/Qwen/Qwen3-8B)
+- Qwen2.5-Coder-32B (Alibaba Qwen): 32.5B, 128K context, ~20 GB VRAM (Q4), Apache-2.0 (https://huggingface.co/Qwen/Qwen2.5-Coder-32B-Instruct)
+- Llama 4 Maverick (Meta): 400B (17B active), 1M context, ~230 GB VRAM (Q4), Llama 4 Community License (https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct)
+- Llama 4 Scout (Meta): 109B (17B active), 10M context, ~65 GB VRAM (Q4), Llama 4 Community License (https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct)
+- Llama 3.3 70B (Meta): 70.6B, 128K context, ~42 GB VRAM (Q4), Llama 3.3 Community License (https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct)
+- Llama 3.1 8B (Meta): 8B, 128K context, ~5.2 GB VRAM (Q4), Llama 3.1 Community License (https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
+- Gemma 3 27B (Google): 27.4B, 128K context, ~17 GB VRAM (Q4), Gemma License (https://huggingface.co/google/gemma-3-27b-it)
+- Gemma 3 12B (Google): 12.2B, 128K context, ~8.5 GB VRAM (Q4), Gemma License (https://huggingface.co/google/gemma-3-12b-it)
+- Gemma 3 4B (Google): 4.3B, 128K context, ~3.5 GB VRAM (Q4), Gemma License (https://huggingface.co/google/gemma-3-4b-it)
+- Mistral Large 2 (123B) (Mistral AI): 123B, 128K context, ~72 GB VRAM (Q4), Mistral Research License (MRL) (https://huggingface.co/mistralai/Mistral-Large-Instruct-2411)
+- Mistral Small 3.1 (24B) (Mistral AI): 24B, 128K context, ~15 GB VRAM (Q4), Apache-2.0 (https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503)
+- Devstral Small (24B) (Mistral AI): 24B, 128K context, ~15 GB VRAM (Q4), Apache-2.0 (https://huggingface.co/mistralai/Devstral-Small-2505)
+- Kimi K2 (Moonshot AI): 1000B (32B active), 128K context, ~560 GB VRAM (Q4), Modified MIT (https://huggingface.co/moonshotai/Kimi-K2-Instruct)
+- GLM-4.5 (Zhipu AI): 355B (32B active), 128K context, ~200 GB VRAM (Q4), MIT (https://huggingface.co/zai-org/GLM-4.5)
+- GLM-4.5-Air (Zhipu AI): 106B (12B active), 128K context, ~62 GB VRAM (Q4), MIT (https://huggingface.co/zai-org/GLM-4.5-Air)
+- gpt-oss-120b (OpenAI): 117B (5.1B active), 128K context, ~65 GB VRAM (Q4), Apache-2.0 (https://huggingface.co/openai/gpt-oss-120b)
+- gpt-oss-20b (OpenAI): 21B (3.6B active), 128K context, ~13 GB VRAM (Q4), Apache-2.0 (https://huggingface.co/openai/gpt-oss-20b)
+- Phi-4 (14B) (Microsoft): 14.7B, 16K context, ~9.5 GB VRAM (Q4), MIT (https://huggingface.co/microsoft/phi-4)
+- OLMo 2 32B (AllenAI (AI2)): 32.2B, 4K context, ~20 GB VRAM (Q4), Apache-2.0 (https://huggingface.co/allenai/OLMo-2-0325-32B-Instruct)
+- Command A (111B) (Cohere): 111B, 256K context, ~66 GB VRAM (Q4), CC-BY-NC-4.0 (https://huggingface.co/CohereForAI/c4ai-command-a-03-2025)
