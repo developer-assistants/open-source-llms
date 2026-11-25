@@ -32,10 +32,9 @@
   }
 
   function formatParams(m) {
-    const total = Number.isInteger(m.total_params_b) ? `${m.total_params_b}B` : `${m.total_params_b}B`;
+    const total = `${m.total_params_b}B`;
     if (m.architecture === "MoE") {
-      const active = Number.isInteger(m.active_params_b) ? `${m.active_params_b}B` : `${m.active_params_b}B`;
-      return `${total} (${active} active)`;
+      return `${total} (${m.active_params_b}B active)`;
     }
     return total;
   }
@@ -48,10 +47,10 @@
     return `${k}K`;
   }
 
-  function licenseBadgeClass(tier) {
-    if (tier === "permissive-oss") return "pill pill--oss";
-    if (tier === "community-commercial") return "pill pill--community";
-    return "pill pill--research";
+  function licenseStatusClass(tier) {
+    if (tier === "permissive-oss") return "status-text status-text--oss";
+    if (tier === "community-commercial") return "status-text status-text--community";
+    return "status-text status-text--research";
   }
 
   function matchesFilters(m) {
@@ -107,26 +106,25 @@
       .map((m) => {
         const vramVal = prec === "fp16" ? m.vram_fp16_gb : m.vram_q4_gb;
         const isCompared = selectedCompare.includes(m.id);
-        const tags = m.primary_use_cases
-          .slice(0, 3)
-          .map((t) => `<span class="pill pill--tag">${escapeHtml(t)}</span>`)
-          .join("");
-        const runCmd = m.ollama_tag ? `<code>ollama run ${escapeHtml(m.ollama_tag)}</code>` : `<span class="model-org">vLLM / SGLang</span>`;
+        const tags = escapeHtml(m.primary_use_cases.slice(0, 3).join(", "));
+        const runCmd = m.ollama_tag
+          ? `<code class="run-cmd">ollama run ${escapeHtml(m.ollama_tag)}</code>`
+          : `<span class="model-meta">vLLM / SGLang</span>`;
 
         return `
           <tr>
             <td>
               <span class="model-name"><a href="${escapeHtml(m.huggingface_url)}" target="_blank" rel="noopener">${escapeHtml(m.name)}</a></span>
-              <span class="model-org">${escapeHtml(m.organization)} · ${escapeHtml(m.architecture)}</span>
+              <span class="model-meta">${escapeHtml(m.organization)}, ${escapeHtml(m.architecture)}</span>
               <div class="model-summary">${escapeHtml(m.summary)}</div>
             </td>
-            <td class="mono">${escapeHtml(formatParams(m))}</td>
-            <td class="mono">${escapeHtml(formatContext(m.context_window_k))}</td>
-            <td class="mono">${escapeHtml(vramVal)} GB</td>
-            <td><span class="${licenseBadgeClass(m.license_tier)}">${escapeHtml(m.license)}</span></td>
-            <td>${tags}<div style="margin-top:0.35rem">${runCmd}</div></td>
+            <td class="mono num">${escapeHtml(formatParams(m))}</td>
+            <td class="mono num">${escapeHtml(formatContext(m.context_window_k))}</td>
+            <td class="mono num">${escapeHtml(vramVal)} GB</td>
+            <td><span class="${licenseStatusClass(m.license_tier)}">${escapeHtml(m.license === "CC-BY-NC-4.0" ? "Creative Commons BY-NC 4.0" : m.license)}</span></td>
+            <td><div class="tag-list">${tags}</div>${runCmd}</td>
             <td>
-              <button type="button" class="btn btn--sm" data-compare-id="${escapeHtml(m.id)}">
+              <button type="button" class="key key--sm" data-compare-id="${escapeHtml(m.id)}">
                 ${isCompared ? "Selected" : "Compare"}
               </button>
             </td>
@@ -151,13 +149,13 @@
       ["Organization", (m) => m.organization],
       ["Architecture", (m) => m.architecture],
       ["Parameters", formatParams],
-      ["Context Window", (m) => formatContext(m.context_window_k)],
-      ["VRAM (Q4)", (m) => `${m.vram_q4_gb} GB`],
-      ["VRAM (FP16)", (m) => `${m.vram_fp16_gb} GB`],
+      ["Context window", (m) => formatContext(m.context_window_k)],
+      ["VRAM Q4", (m) => `${m.vram_q4_gb} GB`],
+      ["VRAM FP16", (m) => `${m.vram_fp16_gb} GB`],
       ["License", (m) => m.license],
       ["Modalities", (m) => m.modalities.join(", ")],
       ["Runtimes", (m) => m.runtimes.join(", ")],
-      ["Ollama", (m) => m.ollama_tag ? `ollama run ${m.ollama_tag}` : "Serve via vLLM / SGLang"],
+      ["Ollama", (m) => (m.ollama_tag ? `ollama run ${m.ollama_tag}` : "Serve via vLLM / SGLang")],
     ];
 
     const thead = `<thead><tr><th>Spec</th>${chosen.map((m) => `<th>${escapeHtml(m.name)}</th>`).join("")}</tr></thead>`;
@@ -165,7 +163,7 @@
       .map(
         ([label, fn]) =>
           `<tr><td><strong>${escapeHtml(label)}</strong></td>${chosen
-            .map((m) => `<td class="mono">${escapeHtml(fn(m))}</td>`)
+            .map((m) => `<td class="mono num">${escapeHtml(fn(m))}</td>`)
             .join("")}</tr>`
       )
       .join("")}</tbody>`;
@@ -207,8 +205,8 @@
           <div class="calc-item">
             <div>
               <strong>${escapeHtml(m.name)}</strong>
-              <span class="model-org"> · ${escapeHtml(formatParams(m))} · ${escapeHtml(m.license)}</span>
-              <div class="model-org">Needs ~${escapeHtml(m[vramKey])} GB (${headroom} GB left for KV cache)</div>
+              <span class="calc-item__meta">${escapeHtml(formatParams(m))}, ${escapeHtml(m.license)}</span>
+              <span class="calc-item__meta">Needs ~${escapeHtml(m[vramKey])} GB (${headroom} GB left for KV cache)</span>
             </div>
             <code>${escapeHtml(cmd)}</code>
           </div>
@@ -275,6 +273,6 @@
       renderCalculator();
     })
     .catch(() => {
-      // Keep server-rendered static HTML table intact if fetch fails
+      // Keep static HTML table intact if fetch fails
     });
 })();

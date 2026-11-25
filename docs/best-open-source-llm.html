@@ -18,7 +18,7 @@
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles/site.css">
   <script type="application/ld+json">
 {
@@ -34,7 +34,7 @@
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "Best open source LLM by workload and GPU tier",
+      "name": "Best open source LLM by workload",
       "item": "https://developer-assistants.github.io/open-source-llms/best-open-source-llm.html"
     }
   ]
@@ -46,7 +46,7 @@
     <div class="container site-header__inner">
       <a class="brand" href="./index.html">
         <span>Open Source LLMs</span>
-        <span class="brand__badge">2026</span>
+        <span class="brand__year">2026</span>
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="./index.html">Directory</a><a href="./best-open-source-llm.html" aria-current="page">Best models</a><a href="./free-large-language-models.html">Free LLMs</a><a href="./local-llms-by-vram.html">By VRAM</a><a href="./open-source-coding-llms.html">Coding</a><a href="./open-source-reasoning-llms.html">Reasoning</a><a href="./open-source-llm-licenses.html">Licenses</a><a href="./self-hosted-llm-inference.html">Serving</a><a href="https://github.com/developer-assistants/open-source-llms" target="_blank" rel="noopener">GitHub</a>
@@ -54,15 +54,16 @@
     </div>
   </header>
   <main>
-    <section class="hero">
+    <section class="hero hero--sub">
       <div class="container">
-        <div class="breadcrumbs"><a href="./index.html">Open Source LLMs</a> / Best open source LLM by workload and GPU tier</div>
-        <p class="eyebrow">Selection guide · Best open source LLM</p>
-        <h1>Best open source LLM by workload and GPU tier</h1>
-        <p class="lead">There is no single winner across every hardware budget. Pick the strongest open-weight model for your exact GPU memory, latency target, and commercial license requirements.</p>
-        <div class="hero__actions">
-          <a class="btn btn--primary" href="./index.html#directory">Open interactive directory</a>
-          <a class="btn" href="./index.html#vram-calculator">Check VRAM fit</a>
+        <div class="breadcrumbs"><a href="./index.html">Open Source LLMs</a> / Best open source LLM by workload</div>
+        <div class="hero__copy">
+          <h1>Best open source LLM by workload</h1>
+          <p class="lead">Pick the strongest open-weight model for your GPU memory, latency target, and commercial license terms.</p>
+          <div class="hero__actions">
+            <a class="key key--primary" href="./index.html#directory">Open full directory</a>
+            <a class="action-link" href="./index.html#vram-calculator">Check VRAM fit</a>
+          </div>
         </div>
       </div>
     </section>
@@ -79,179 +80,179 @@
                 <th>Model</th>
                 <th>Parameters</th>
                 <th>Context</th>
-                <th>VRAM (Q4)</th>
+                <th>Memory Q4</th>
                 <th>License</th>
-                <th>Use cases &amp; runtime</th>
+                <th>Use cases and runtime</th>
               </tr>
             </thead>
             <tbody>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/deepseek-ai/DeepSeek-R1" target="_blank" rel="noopener">DeepSeek-R1</a></span>
-              <span class="model-org">DeepSeek · MoE</span>
+              <span class="model-meta">DeepSeek, MoE</span>
               <div class="model-summary">Frontier Mixture-of-Experts reasoning model under the MIT license with reinforcement-learned chain of thought.</div>
             </td>
-            <td class="mono">671B (37B active)</td>
-            <td class="mono">128K</td>
-            <td class="mono">380 GB</td>
-            <td><span class="pill pill--oss">MIT</span></td>
-            <td><span class="pill pill--tag">reasoning</span><span class="pill pill--tag">math</span><span class="pill pill--tag">coding</span><div style="margin-top:0.35rem"><code>ollama run deepseek-r1:671b</code></div></td>
+            <td class="mono num">671B (37B active)</td>
+            <td class="mono num">128K</td>
+            <td class="mono num">380 GB</td>
+            <td><span class="status-text status-text--oss">MIT</span></td>
+            <td><div class="tag-list">reasoning, math, coding</div><code class="run-cmd">ollama run deepseek-r1:671b</code></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/deepseek-ai/DeepSeek-V3.1" target="_blank" rel="noopener">DeepSeek-V3.1</a></span>
-              <span class="model-org">DeepSeek · MoE</span>
+              <span class="model-meta">DeepSeek, MoE</span>
               <div class="model-summary">General-purpose 671B MoE model supporting both fast direct replies and extended thinking mode.</div>
             </td>
-            <td class="mono">671B (37B active)</td>
-            <td class="mono">128K</td>
-            <td class="mono">380 GB</td>
-            <td><span class="pill pill--oss">MIT</span></td>
-            <td><span class="pill pill--tag">general</span><span class="pill pill--tag">coding</span><span class="pill pill--tag">agentic</span><div style="margin-top:0.35rem"><code>ollama run deepseek-v3.1</code></div></td>
+            <td class="mono num">671B (37B active)</td>
+            <td class="mono num">128K</td>
+            <td class="mono num">380 GB</td>
+            <td><span class="status-text status-text--oss">MIT</span></td>
+            <td><div class="tag-list">general, coding, agentic</div><code class="run-cmd">ollama run deepseek-v3.1</code></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/Qwen/Qwen3-235B-A22B" target="_blank" rel="noopener">Qwen3-235B-A22B</a></span>
-              <span class="model-org">Alibaba Qwen · MoE</span>
+              <span class="model-meta">Alibaba Qwen, MoE</span>
               <div class="model-summary">Flagship Apache 2.0 MoE model activating 22B parameters per token with hybrid thinking control across 100+ languages.</div>
             </td>
-            <td class="mono">235B (22B active)</td>
-            <td class="mono">128K</td>
-            <td class="mono">135 GB</td>
-            <td><span class="pill pill--oss">Apache-2.0</span></td>
-            <td><span class="pill pill--tag">general</span><span class="pill pill--tag">reasoning</span><span class="pill pill--tag">multilingual</span><div style="margin-top:0.35rem"><code>ollama run qwen3:235b</code></div></td>
+            <td class="mono num">235B (22B active)</td>
+            <td class="mono num">128K</td>
+            <td class="mono num">135 GB</td>
+            <td><span class="status-text status-text--oss">Apache-2.0</span></td>
+            <td><div class="tag-list">general, reasoning, multilingual</div><code class="run-cmd">ollama run qwen3:235b</code></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/Qwen/Qwen3-32B" target="_blank" rel="noopener">Qwen3-32B</a></span>
-              <span class="model-org">Alibaba Qwen · Dense</span>
+              <span class="model-meta">Alibaba Qwen, Dense</span>
               <div class="model-summary">Balanced 32B dense model with switchable thinking mode and Apache 2.0 licensing for single-GPU deployments.</div>
             </td>
-            <td class="mono">32.8B</td>
-            <td class="mono">128K</td>
-            <td class="mono">20 GB</td>
-            <td><span class="pill pill--oss">Apache-2.0</span></td>
-            <td><span class="pill pill--tag">general</span><span class="pill pill--tag">coding</span><span class="pill pill--tag">reasoning</span><div style="margin-top:0.35rem"><code>ollama run qwen3:32b</code></div></td>
+            <td class="mono num">32.8B</td>
+            <td class="mono num">128K</td>
+            <td class="mono num">20 GB</td>
+            <td><span class="status-text status-text--oss">Apache-2.0</span></td>
+            <td><div class="tag-list">general, coding, reasoning</div><code class="run-cmd">ollama run qwen3:32b</code></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/Qwen/Qwen3-Coder-480B-A35B-Instruct" target="_blank" rel="noopener">Qwen3-Coder-480B-A35B</a></span>
-              <span class="model-org">Alibaba Qwen · MoE</span>
+              <span class="model-meta">Alibaba Qwen, MoE</span>
               <div class="model-summary">Large MoE coding specialist tuned for repository-scale edits, terminal tool use, and 256K native context.</div>
             </td>
-            <td class="mono">480B (35B active)</td>
-            <td class="mono">256K</td>
-            <td class="mono">270 GB</td>
-            <td><span class="pill pill--oss">Apache-2.0</span></td>
-            <td><span class="pill pill--tag">coding</span><span class="pill pill--tag">agentic</span><div style="margin-top:0.35rem"><code>ollama run qwen3-coder:480b</code></div></td>
+            <td class="mono num">480B (35B active)</td>
+            <td class="mono num">256K</td>
+            <td class="mono num">270 GB</td>
+            <td><span class="status-text status-text--oss">Apache-2.0</span></td>
+            <td><div class="tag-list">coding, agentic</div><code class="run-cmd">ollama run qwen3-coder:480b</code></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct" target="_blank" rel="noopener">Llama 4 Maverick</a></span>
-              <span class="model-org">Meta · MoE</span>
+              <span class="model-meta">Meta, MoE</span>
               <div class="model-summary">Native multimodal 128-expert MoE model with 17B active parameters and a 1M token context window.</div>
             </td>
-            <td class="mono">400B (17B active)</td>
-            <td class="mono">1M</td>
-            <td class="mono">230 GB</td>
-            <td><span class="pill pill--community">Llama 4 Community License</span></td>
-            <td><span class="pill pill--tag">general</span><span class="pill pill--tag">multimodal</span><span class="pill pill--tag">rag</span><div style="margin-top:0.35rem"><code>ollama run llama4:maverick</code></div></td>
+            <td class="mono num">400B (17B active)</td>
+            <td class="mono num">1M</td>
+            <td class="mono num">230 GB</td>
+            <td><span class="status-text status-text--community">Llama 4 Community License</span></td>
+            <td><div class="tag-list">general, multimodal, rag</div><code class="run-cmd">ollama run llama4:maverick</code></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct" target="_blank" rel="noopener">Llama 4 Scout</a></span>
-              <span class="model-org">Meta · MoE</span>
+              <span class="model-meta">Meta, MoE</span>
               <div class="model-summary">16-expert multimodal MoE model designed for single-H100 quantized serving and up to 10M token document context.</div>
             </td>
-            <td class="mono">109B (17B active)</td>
-            <td class="mono">10M</td>
-            <td class="mono">65 GB</td>
-            <td><span class="pill pill--community">Llama 4 Community License</span></td>
-            <td><span class="pill pill--tag">rag</span><span class="pill pill--tag">multimodal</span><span class="pill pill--tag">general</span><div style="margin-top:0.35rem"><code>ollama run llama4:scout</code></div></td>
+            <td class="mono num">109B (17B active)</td>
+            <td class="mono num">10M</td>
+            <td class="mono num">65 GB</td>
+            <td><span class="status-text status-text--community">Llama 4 Community License</span></td>
+            <td><div class="tag-list">rag, multimodal, general</div><code class="run-cmd">ollama run llama4:scout</code></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/google/gemma-3-27b-it" target="_blank" rel="noopener">Gemma 3 27B</a></span>
-              <span class="model-org">Google · Dense</span>
+              <span class="model-meta">Google, Dense</span>
               <div class="model-summary">Dense 27B vision-language model sized to run comfortably on a single 24 GB consumer GPU.</div>
             </td>
-            <td class="mono">27.4B</td>
-            <td class="mono">128K</td>
-            <td class="mono">17 GB</td>
-            <td><span class="pill pill--community">Gemma License</span></td>
-            <td><span class="pill pill--tag">multimodal</span><span class="pill pill--tag">local</span><span class="pill pill--tag">general</span><div style="margin-top:0.35rem"><code>ollama run gemma3:27b</code></div></td>
+            <td class="mono num">27.4B</td>
+            <td class="mono num">128K</td>
+            <td class="mono num">17 GB</td>
+            <td><span class="status-text status-text--community">Gemma License</span></td>
+            <td><div class="tag-list">multimodal, local, general</div><code class="run-cmd">ollama run gemma3:27b</code></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/mistralai/Devstral-Small-2505" target="_blank" rel="noopener">Devstral Small (24B)</a></span>
-              <span class="model-org">Mistral AI · Dense</span>
+              <span class="model-meta">Mistral AI, Dense</span>
               <div class="model-summary">Apache 2.0 24B model trained specifically for local software engineering agents and multi-file codebases.</div>
             </td>
-            <td class="mono">24B</td>
-            <td class="mono">128K</td>
-            <td class="mono">15 GB</td>
-            <td><span class="pill pill--oss">Apache-2.0</span></td>
-            <td><span class="pill pill--tag">coding</span><span class="pill pill--tag">agentic</span><span class="pill pill--tag">local</span><div style="margin-top:0.35rem"><code>ollama run devstral:24b</code></div></td>
+            <td class="mono num">24B</td>
+            <td class="mono num">128K</td>
+            <td class="mono num">15 GB</td>
+            <td><span class="status-text status-text--oss">Apache-2.0</span></td>
+            <td><div class="tag-list">coding, agentic, local</div><code class="run-cmd">ollama run devstral:24b</code></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/zai-org/GLM-4.5" target="_blank" rel="noopener">GLM-4.5</a></span>
-              <span class="model-org">Zhipu AI · MoE</span>
+              <span class="model-meta">Zhipu AI, MoE</span>
               <div class="model-summary">MIT-licensed 355B MoE model combining agentic tool execution, coding, and toggleable reasoning.</div>
             </td>
-            <td class="mono">355B (32B active)</td>
-            <td class="mono">128K</td>
-            <td class="mono">200 GB</td>
-            <td><span class="pill pill--oss">MIT</span></td>
-            <td><span class="pill pill--tag">agentic</span><span class="pill pill--tag">reasoning</span><span class="pill pill--tag">coding</span><div style="margin-top:0.35rem"><span class="model-org">vLLM / SGLang</span></div></td>
+            <td class="mono num">355B (32B active)</td>
+            <td class="mono num">128K</td>
+            <td class="mono num">200 GB</td>
+            <td><span class="status-text status-text--oss">MIT</span></td>
+            <td><div class="tag-list">agentic, reasoning, coding</div><span class="model-meta">vLLM / SGLang</span></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/moonshotai/Kimi-K2-Instruct" target="_blank" rel="noopener">Kimi K2</a></span>
-              <span class="model-org">Moonshot AI · MoE</span>
+              <span class="model-meta">Moonshot AI, MoE</span>
               <div class="model-summary">1-trillion-parameter MoE model with 32B active parameters trained for autonomous tool use and multi-step coding.</div>
             </td>
-            <td class="mono">1000B (32B active)</td>
-            <td class="mono">128K</td>
-            <td class="mono">560 GB</td>
-            <td><span class="pill pill--community">Modified MIT</span></td>
-            <td><span class="pill pill--tag">agentic</span><span class="pill pill--tag">coding</span><span class="pill pill--tag">general</span><div style="margin-top:0.35rem"><span class="model-org">vLLM / SGLang</span></div></td>
+            <td class="mono num">1000B (32B active)</td>
+            <td class="mono num">128K</td>
+            <td class="mono num">560 GB</td>
+            <td><span class="status-text status-text--community">Modified MIT</span></td>
+            <td><div class="tag-list">agentic, coding, general</div><span class="model-meta">vLLM / SGLang</span></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/openai/gpt-oss-120b" target="_blank" rel="noopener">gpt-oss-120b</a></span>
-              <span class="model-org">OpenAI · MoE</span>
+              <span class="model-meta">OpenAI, MoE</span>
               <div class="model-summary">OpenAI Apache 2.0 MoE reasoning model quantized natively to MXFP4 to fit on one 80 GB GPU.</div>
             </td>
-            <td class="mono">117B (5.1B active)</td>
-            <td class="mono">128K</td>
-            <td class="mono">65 GB</td>
-            <td><span class="pill pill--oss">Apache-2.0</span></td>
-            <td><span class="pill pill--tag">reasoning</span><span class="pill pill--tag">agentic</span><span class="pill pill--tag">coding</span><div style="margin-top:0.35rem"><code>ollama run gpt-oss:120b</code></div></td>
+            <td class="mono num">117B (5.1B active)</td>
+            <td class="mono num">128K</td>
+            <td class="mono num">65 GB</td>
+            <td><span class="status-text status-text--oss">Apache-2.0</span></td>
+            <td><div class="tag-list">reasoning, agentic, coding</div><code class="run-cmd">ollama run gpt-oss:120b</code></td>
             
           </tr>
           <tr>
             <td>
               <span class="model-name"><a href="https://huggingface.co/openai/gpt-oss-20b" target="_blank" rel="noopener">gpt-oss-20b</a></span>
-              <span class="model-org">OpenAI · MoE</span>
+              <span class="model-meta">OpenAI, MoE</span>
               <div class="model-summary">Fast Apache 2.0 MoE model activating 3.6B parameters per token so laptops with 16 GB RAM can run local reasoning.</div>
             </td>
-            <td class="mono">21B (3.6B active)</td>
-            <td class="mono">128K</td>
-            <td class="mono">13 GB</td>
-            <td><span class="pill pill--oss">Apache-2.0</span></td>
-            <td><span class="pill pill--tag">local</span><span class="pill pill--tag">reasoning</span><span class="pill pill--tag">agentic</span><div style="margin-top:0.35rem"><code>ollama run gpt-oss:20b</code></div></td>
+            <td class="mono num">21B (3.6B active)</td>
+            <td class="mono num">128K</td>
+            <td class="mono num">13 GB</td>
+            <td><span class="status-text status-text--oss">Apache-2.0</span></td>
+            <td><div class="tag-list">local, reasoning, agentic</div><code class="run-cmd">ollama run gpt-oss:20b</code></td>
             
           </tr>
             </tbody>
@@ -263,24 +264,24 @@
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>Category winners at a glance</h2>
+          <h2>Category picks</h2>
         </div>
         <div class="card-grid">
-          <div class="card">
+          <div class="cut card">
             <h3>Frontier reasoning cluster</h3>
-            <p><strong>DeepSeek-R1</strong> and <strong>DeepSeek-V3.1</strong> deliver top math, logic, and code generation under the MIT license when you have multi-GPU H100 or B200 capacity.</p>
+            <p><strong>DeepSeek-R1</strong> and <strong>DeepSeek-V3.1</strong> lead on math, logic, and code generation under the MIT license on multi-GPU H100 or B200 clusters.</p>
           </div>
-          <div class="card">
-            <h3>Best single 24 GB GPU model</h3>
+          <div class="cut card">
+            <h3>Single 24 GB GPU</h3>
             <p><strong>Qwen3-32B</strong> handles general chat, multilingual work, and coding on one RTX 3090 or RTX 4090 at 4-bit quantization under Apache 2.0.</p>
           </div>
-          <div class="card">
-            <h3>Best local coding agent</h3>
+          <div class="cut card">
+            <h3>Local coding agent</h3>
             <p><strong>Devstral Small (24B)</strong> and <strong>Qwen2.5-Coder-32B</strong> pair low latency with multi-file editing and fill-in-the-middle completion.</p>
           </div>
-          <div class="card">
-            <h3>Best long-context RAG</h3>
-            <p><strong>Llama 4 Scout</strong> stretches context to 10M tokens on a single quantized 80 GB GPU, while <strong>Llama 4 Maverick</strong> handles 1M tokens with multimodal inputs.</p>
+          <div class="cut card">
+            <h3>Long-context RAG</h3>
+            <p><strong>Llama 4 Scout</strong> stretches context to 10M tokens on one quantized 80 GB GPU, while <strong>Llama 4 Maverick</strong> handles 1M tokens with vision.</p>
           </div>
         </div>
       </div>

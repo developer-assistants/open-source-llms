@@ -47,28 +47,26 @@ def fmt_ctx(k: int) -> str:
     return f"{k}K"
 
 
-def license_pill(m: dict[str, Any]) -> str:
+def license_status(m: dict[str, Any]) -> str:
     tier = m["license_tier"]
-    cls = "pill pill--oss" if tier == "permissive-oss" else (
-        "pill pill--community" if tier == "community-commercial" else "pill pill--research"
+    cls = "status-text status-text--oss" if tier == "permissive-oss" else (
+        "status-text status-text--community" if tier == "community-commercial" else "status-text status-text--research"
     )
-    return f'<span class="{cls}">{html.escape(m["license"])}</span>'
+    label = "Creative Commons BY-NC 4.0" if m["license"] == "CC-BY-NC-4.0" else m["license"]
+    return f'<span class="{cls}">{html.escape(label)}</span>'
 
 
 def render_rows(models: list[dict[str, Any]], include_compare: bool = False) -> str:
     rows = []
     for m in models:
-        tags = "".join(
-            f'<span class="pill pill--tag">{html.escape(t)}</span>'
-            for t in m["primary_use_cases"][:3]
-        )
+        tags = html.escape(", ".join(m["primary_use_cases"][:3]))
         run_cmd = (
-            f'<code>ollama run {html.escape(m["ollama_tag"])}</code>'
+            f'<code class="run-cmd">ollama run {html.escape(m["ollama_tag"])}</code>'
             if m["ollama_tag"]
-            else '<span class="model-org">vLLM / SGLang</span>'
+            else '<span class="model-meta">vLLM / SGLang</span>'
         )
         action_td = (
-            f'<td><button type="button" class="btn btn--sm" data-compare-id="{html.escape(m["id"])}">Compare</button></td>'
+            f'<td><button type="button" class="key key--sm" data-compare-id="{html.escape(m["id"])}">Compare</button></td>'
             if include_compare
             else ""
         )
@@ -76,14 +74,14 @@ def render_rows(models: list[dict[str, Any]], include_compare: bool = False) -> 
             f"""          <tr>
             <td>
               <span class="model-name"><a href="{html.escape(m['huggingface_url'])}" target="_blank" rel="noopener">{html.escape(m['name'])}</a></span>
-              <span class="model-org">{html.escape(m['organization'])} · {html.escape(m['architecture'])}</span>
+              <span class="model-meta">{html.escape(m['organization'])}, {html.escape(m['architecture'])}</span>
               <div class="model-summary">{html.escape(m['summary'])}</div>
             </td>
-            <td class="mono">{html.escape(fmt_params(m))}</td>
-            <td class="mono">{html.escape(fmt_ctx(m['context_window_k']))}</td>
-            <td class="mono">{html.escape(str(m['vram_q4_gb']))} GB</td>
-            <td>{license_pill(m)}</td>
-            <td>{tags}<div style="margin-top:0.35rem">{run_cmd}</div></td>
+            <td class="mono num">{html.escape(fmt_params(m))}</td>
+            <td class="mono num">{html.escape(fmt_ctx(m['context_window_k']))}</td>
+            <td class="mono num">{html.escape(str(m['vram_q4_gb']))} GB</td>
+            <td>{license_status(m)}</td>
+            <td><div class="tag-list">{tags}</div>{run_cmd}</td>
             {action_td}
           </tr>"""
         )
@@ -100,7 +98,7 @@ def render_header(current_file: str) -> str:
     <div class="container site-header__inner">
       <a class="brand" href="./index.html">
         <span>Open Source LLMs</span>
-        <span class="brand__badge">2026</span>
+        <span class="brand__year">2026</span>
       </a>
       <nav class="nav" aria-label="Primary">
         {"".join(links)}
@@ -159,7 +157,7 @@ def wrap_page(
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles/site.css">
   <script type="application/ld+json">
 {json_ld}
@@ -242,36 +240,35 @@ def build_index(models: list[dict[str, Any]]) -> str:
 
     body = f"""    <section class="hero">
       <div class="container hero__grid">
-        <div>
-          <p class="eyebrow">Open source LLMs · Verified 2026 directory</p>
-          <h1>Compare 26 open source LLMs by VRAM, license, and task</h1>
-          <p class="lead">Filter free large language models from DeepSeek, Qwen, Llama, Gemma, Mistral, GLM, Kimi, OpenAI gpt-oss, Phi, and OLMo. Check exact 4-bit and FP16 memory requirements, commercial terms, and runnable Ollama or vLLM commands.</p>
+        <div class="hero__copy">
+          <h1>Open source LLMs compared by VRAM</h1>
+          <p class="lead">Compare 26 free models by memory, license, context, and runtime.</p>
           <div class="hero__actions">
-            <a class="btn btn--primary" href="#directory">Browse model matrix</a>
-            <a class="btn" href="#vram-calculator">VRAM fit calculator</a>
-            <a class="btn" href="{REPO_URL}" target="_blank" rel="noopener">GitHub CLI &amp; JSON</a>
+            <a class="key key--primary" href="#directory">Browse model matrix</a>
+            <a class="action-link" href="#vram-calculator">VRAM calculator</a>
+            <a class="action-link" href="{REPO_URL}" target="_blank" rel="noopener">GitHub CLI</a>
           </div>
         </div>
 
-        <aside class="metrics-card" aria-label="Dataset summary">
-          <div class="metric-box">
-            <span class="metric-val metric-val--accent">{len(models)}</span>
-            <span class="metric-lbl">Verified open-weight LLMs</span>
+        <aside class="cut bench" aria-label="Dataset summary">
+          <div class="bench__cell">
+            <span class="bench__figure bench__figure--accent">{len(models)}</span>
+            <span class="bench__label">Verified open models</span>
           </div>
-          <div class="metric-box">
-            <span class="metric-val">{permissive_count}</span>
-            <span class="metric-lbl">Apache 2.0 or MIT</span>
+          <div class="bench__cell">
+            <span class="bench__figure">{permissive_count}</span>
+            <span class="bench__label">Apache 2.0 or MIT</span>
           </div>
-          <div class="metric-box">
-            <span class="metric-val">{local_count}</span>
-            <span class="metric-lbl">Fit on 24 GB GPU (Q4)</span>
+          <div class="bench__cell">
+            <span class="bench__figure">{local_count}</span>
+            <span class="bench__label">Fit on 24 GB GPU</span>
           </div>
-          <div class="metric-box">
-            <span class="metric-val">{moe_count}</span>
-            <span class="metric-lbl">Mixture-of-Experts</span>
+          <div class="bench__cell">
+            <span class="bench__figure">{moe_count}</span>
+            <span class="bench__label">Mixture of experts</span>
           </div>
-          <div class="metric-box metric-box--wide">
-            <div class="cli-bar"><span>$</span>python3 llm_advisor.py --recommend --vram 24 --task coding --permissive-only</div>
+          <div class="bench__cell--wide graphite cli-strip">
+            <span class="token">$</span> python3 llm_advisor.py --recommend --vram 24 --task coding
           </div>
         </aside>
       </div>
@@ -280,11 +277,11 @@ def build_index(models: list[dict[str, Any]]) -> str:
     <section class="section" id="directory">
       <div class="container">
         <div class="section-head">
-          <h2>Interactive open source LLM matrix</h2>
-          <p>Filter all {len(models)} models by available GPU memory, quantization precision, commercial license tier, architecture, and primary workload.</p>
+          <h2>Open source LLM matrix</h2>
+          <p>Filter all {len(models)} models by GPU memory, quantization, commercial license, architecture, and workload.</p>
         </div>
 
-        <form class="filter-bar" onsubmit="return false;">
+        <form class="cut filter-bar" onsubmit="return false;">
           <div class="field">
             <label for="filter-search">Search model or family</label>
             <input id="filter-search" type="search" placeholder="DeepSeek, Qwen, Llama, 32B...">
@@ -294,7 +291,7 @@ def build_index(models: list[dict[str, Any]]) -> str:
             <select id="filter-vram">
               <option value="">Any memory</option>
               <option value="8">Up to 8 GB (Laptop)</option>
-              <option value="16">Up to 16 GB (RTX 4060 Ti / M-series)</option>
+              <option value="16">Up to 16 GB (RTX 4060 Ti / Mac)</option>
               <option value="24">Up to 24 GB (RTX 3090 / 4090)</option>
               <option value="48">Up to 48 GB (A6000 / L40S)</option>
               <option value="80">Up to 80 GB (A100 / H100)</option>
@@ -330,11 +327,11 @@ def build_index(models: list[dict[str, Any]]) -> str:
             <select id="filter-task">
               <option value="">All tasks</option>
               <option value="coding">Coding</option>
-              <option value="reasoning">Reasoning &amp; math</option>
+              <option value="reasoning">Reasoning and math</option>
               <option value="agentic">Agentic tool use</option>
-              <option value="local">Local / laptop</option>
+              <option value="local">Local and laptop</option>
               <option value="rag">Long-context RAG</option>
-              <option value="vision">Vision / multimodal</option>
+              <option value="vision">Vision and multimodal</option>
               <option value="open_data">Open training data</option>
             </select>
           </div>
@@ -342,7 +339,7 @@ def build_index(models: list[dict[str, Any]]) -> str:
 
         <div class="toolbar">
           <span id="result-count">Showing {len(models)} of {len(models)} open-source LLMs</span>
-          <button type="button" class="btn btn--sm" id="filter-reset">Reset filters</button>
+          <button type="button" class="key key--sm" id="filter-reset">Reset filters</button>
         </div>
 
         <div class="table-wrap">
@@ -352,9 +349,9 @@ def build_index(models: list[dict[str, Any]]) -> str:
                 <th>Model</th>
                 <th>Parameters</th>
                 <th>Context</th>
-                <th>VRAM (Q4)</th>
+                <th>Memory Q4</th>
                 <th>License</th>
-                <th>Use cases &amp; runtime</th>
+                <th>Use cases and runtime</th>
                 <th>Compare</th>
               </tr>
             </thead>
@@ -364,10 +361,10 @@ def build_index(models: list[dict[str, Any]]) -> str:
           </table>
         </div>
 
-        <div class="compare-tray" id="compare-tray" aria-live="polite">
+        <div class="cut compare-tray" id="compare-tray" aria-live="polite">
           <div class="compare-tray__head">
-            <h3>Side-by-side model comparison</h3>
-            <button type="button" class="btn btn--sm" id="clear-compare">Clear selection</button>
+            <h3>Side-by-side comparison</h3>
+            <button type="button" class="key key--sm" id="clear-compare">Clear selection</button>
           </div>
           <div class="table-wrap">
             <table id="compare-table"></table>
@@ -379,12 +376,12 @@ def build_index(models: list[dict[str, Any]]) -> str:
     <section class="section" id="vram-calculator">
       <div class="container">
         <div class="section-head">
-          <h2>Local LLM hardware and VRAM fit calculator</h2>
-          <p>Select your GPU memory or Apple Silicon unified memory budget to see the strongest models that leave room for KV cache.</p>
+          <h2>Hardware VRAM fit calculator</h2>
+          <p>Select your GPU memory or Apple Silicon unified memory budget to see models that leave room for KV cache.</p>
         </div>
         <div class="calc-grid">
-          <div class="card">
-            <div class="field" style="margin-bottom:0.85rem">
+          <div class="cut card">
+            <div class="field" style="margin-bottom:var(--space-md)">
               <label for="calc-hardware">Hardware preset</label>
               <select id="calc-hardware">
                 <option value="8">8 GB VRAM (RTX 4060 / 16 GB laptop)</option>
@@ -396,25 +393,25 @@ def build_index(models: list[dict[str, Any]]) -> str:
                 <option value="640">8x 80 GB H100 (640 GB cluster)</option>
               </select>
             </div>
-            <div class="field" style="margin-bottom:0.85rem">
+            <div class="field" style="margin-bottom:var(--space-md)">
               <label for="calc-task">Primary task</label>
               <select id="calc-task">
-                <option value="general">General chat &amp; writing</option>
-                <option value="coding">Coding &amp; IDE agents</option>
-                <option value="reasoning">Reasoning &amp; math</option>
-                <option value="agentic">Tool calling &amp; agents</option>
+                <option value="general">General chat and writing</option>
+                <option value="coding">Coding and IDE agents</option>
+                <option value="reasoning">Reasoning and math</option>
+                <option value="agentic">Tool calling and agents</option>
                 <option value="rag">Document RAG</option>
-                <option value="multimodal">Vision &amp; images</option>
+                <option value="multimodal">Vision and images</option>
               </select>
             </div>
-            <div class="field" style="margin-bottom:0.85rem">
+            <div class="field" style="margin-bottom:var(--space-md)">
               <label for="calc-precision">Weights precision</label>
               <select id="calc-precision">
                 <option value="q4" selected>4-bit (GGUF Q4_K_M / AWQ / MXFP4)</option>
                 <option value="fp16">16-bit (FP16 / BF16)</option>
               </select>
             </div>
-            <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer">
+            <label class="check-row">
               <input id="calc-permissive" type="checkbox">
               Apache 2.0 and MIT licenses only
             </label>
@@ -422,22 +419,25 @@ def build_index(models: list[dict[str, Any]]) -> str:
           <div class="calc-results" id="calc-output">
             <div class="calc-item">
               <div>
-                <strong>Qwen3-32B</strong> <span class="model-org">· 32.8B · Apache-2.0</span>
-                <div class="model-org">Needs ~20 GB (4 GB left for KV cache)</div>
+                <strong>Qwen3-32B</strong>
+                <span class="calc-item__meta">32.8B, Apache-2.0</span>
+                <span class="calc-item__meta">Needs ~20 GB (4 GB left for KV cache)</span>
               </div>
               <code>ollama run qwen3:32b</code>
             </div>
             <div class="calc-item">
               <div>
-                <strong>Gemma 3 27B</strong> <span class="model-org">· 27.4B · Gemma License</span>
-                <div class="model-org">Needs ~17 GB (7 GB left for KV cache)</div>
+                <strong>Gemma 3 27B</strong>
+                <span class="calc-item__meta">27.4B, Gemma License</span>
+                <span class="calc-item__meta">Needs ~17 GB (7 GB left for KV cache)</span>
               </div>
               <code>ollama run gemma3:27b</code>
             </div>
             <div class="calc-item">
               <div>
-                <strong>Devstral Small (24B)</strong> <span class="model-org">· 24B · Apache-2.0</span>
-                <div class="model-org">Needs ~15 GB (9 GB left for KV cache)</div>
+                <strong>Devstral Small (24B)</strong>
+                <span class="calc-item__meta">24B, Apache-2.0</span>
+                <span class="calc-item__meta">Needs ~15 GB (9 GB left for KV cache)</span>
               </div>
               <code>ollama run devstral:24b</code>
             </div>
@@ -450,34 +450,34 @@ def build_index(models: list[dict[str, Any]]) -> str:
       <div class="container">
         <div class="section-head">
           <h2>Focused comparison guides</h2>
-          <p>Dedicated breakdowns by use case, hardware budget, license terms, and serving engine.</p>
+          <p>Dedicated breakdowns by workload, GPU budget, license terms, and serving engine.</p>
         </div>
         <div class="cluster-grid">
-          <a class="cluster-card" href="./best-open-source-llm.html">
-            <h3>Best open source LLM by category</h3>
-            <p>Top picks for frontier clusters, single 24 GB GPUs, laptops, coding, vision, and RAG.</p>
+          <a class="cut cluster-card" href="./best-open-source-llm.html">
+            <h3>Best open source LLM</h3>
+            <p>Top picks for multi-GPU clusters, single 24 GB GPUs, laptops, coding, vision, and RAG.</p>
           </a>
-          <a class="cluster-card" href="./free-large-language-models.html">
-            <h3>Free large language models for commercial use</h3>
+          <a class="cut cluster-card" href="./free-large-language-models.html">
+            <h3>Free large language models</h3>
             <p>Self-hosted Apache 2.0, MIT, and community-licensed models with zero per-token API fees.</p>
           </a>
-          <a class="cluster-card" href="./local-llms-by-vram.html">
-            <h3>Local LLMs by VRAM (8 GB to 80 GB)</h3>
-            <p>Exact hardware sizing for consumer GPUs, Apple Silicon Macs, and workstation cards.</p>
+          <a class="cut cluster-card" href="./local-llms-by-vram.html">
+            <h3>Local LLMs by VRAM</h3>
+            <p>Hardware sizing for 8 GB, 16 GB, 24 GB, 48 GB, and 80 GB GPUs plus Apple Silicon Macs.</p>
           </a>
-          <a class="cluster-card" href="./open-source-coding-llms.html">
+          <a class="cut cluster-card" href="./open-source-coding-llms.html">
             <h3>Open source coding LLMs</h3>
             <p>Compare Qwen3-Coder, DeepSeek-V3.1, Devstral Small, Qwen2.5-Coder, and Kimi K2.</p>
           </a>
-          <a class="cluster-card" href="./open-source-reasoning-llms.html">
+          <a class="cut cluster-card" href="./open-source-reasoning-llms.html">
             <h3>Open source reasoning LLMs</h3>
             <p>Chain-of-thought models including DeepSeek-R1, Qwen3, GLM-4.5, gpt-oss, and Phi-4.</p>
           </a>
-          <a class="cluster-card" href="./open-source-llm-licenses.html">
-            <h3>Open source LLM licenses explained</h3>
-            <p>Apache 2.0 and MIT vs Llama Community, Gemma, Modified MIT, and CC-BY-NC.</p>
+          <a class="cut cluster-card" href="./open-source-llm-licenses.html">
+            <h3>LLM licenses explained</h3>
+            <p>Apache 2.0 and MIT compared with Llama Community, Gemma, Modified MIT, and CC-BY-NC.</p>
           </a>
-          <a class="cluster-card" href="./self-hosted-llm-inference.html">
+          <a class="cut cluster-card" href="./self-hosted-llm-inference.html">
             <h3>Self-hosted inference engines</h3>
             <p>When to pick Ollama, llama.cpp, vLLM, or SGLang for local and production serving.</p>
           </a>
@@ -496,15 +496,15 @@ def build_index(models: list[dict[str, Any]]) -> str:
             <p>On multi-GPU servers, DeepSeek-R1, DeepSeek-V3.1, Qwen3-235B-A22B, and Qwen3-Coder-480B lead on reasoning and software engineering under MIT and Apache 2.0 terms. On a single 24 GB GPU, Qwen3-32B, DeepSeek-R1-Distill-Qwen-32B, Devstral Small 24B, and Gemma 3 27B give the highest output quality without cluster hardware.</p>
           </div>
           <div class="faq-item">
-            <h3>Which free large language models allow unrestricted commercial use?</h3>
+            <h3>Which free large language models allow commercial use?</h3>
             <p>Models published under Apache 2.0 or MIT let you host, fine-tune, and ship commercial products without active-user ceilings. That group includes DeepSeek-R1, DeepSeek-V3.1, the Qwen3 line, Mistral Small 3.1, Devstral Small, GLM-4.5, gpt-oss-120b, gpt-oss-20b, Phi-4, and OLMo 2.</p>
           </div>
           <div class="faq-item">
-            <h3>How much VRAM do I need to run an open source LLM locally?</h3>
+            <h3>How much VRAM do I need to run an LLM locally?</h3>
             <p>At 4-bit quantization, an 8B dense model takes 5 to 6 GB of VRAM, a 14B model takes around 10 GB, a 24B to 32B model fits inside 16 to 24 GB, and a 70B dense model needs about 42 GB before KV cache. Leave 2 to 6 GB of spare memory if you plan to use 32K or 128K context windows.</p>
           </div>
           <div class="faq-item">
-            <h3>What is the difference between open source LLMs and open-weight models?</h3>
+            <h3>Open source LLMs vs open-weight models</h3>
             <p>Most releases in this directory are open-weight: the weights and inference code are free to download, while the pretraining corpus stays private. Fully open-source releases such as AllenAI OLMo 2 also publish the training datasets, data-filtering scripts, and intermediate checkpoints under Apache 2.0.</p>
           </div>
         </div>
@@ -529,7 +529,6 @@ def build_subpage(
     description: str,
     h1: str,
     lede: str,
-    eyebrow: str,
     filtered_models: list[dict[str, Any]],
     sections_html: str,
 ) -> str:
@@ -545,15 +544,16 @@ def build_subpage(
         indent=2,
     )
 
-    body = f"""    <section class="hero">
+    body = f"""    <section class="hero hero--sub">
       <div class="container">
         <div class="breadcrumbs"><a href="./index.html">Open Source LLMs</a> / {html.escape(h1)}</div>
-        <p class="eyebrow">{html.escape(eyebrow)}</p>
-        <h1>{html.escape(h1)}</h1>
-        <p class="lead">{html.escape(lede)}</p>
-        <div class="hero__actions">
-          <a class="btn btn--primary" href="./index.html#directory">Open interactive directory</a>
-          <a class="btn" href="./index.html#vram-calculator">Check VRAM fit</a>
+        <div class="hero__copy">
+          <h1>{html.escape(h1)}</h1>
+          <p class="lead">{html.escape(lede)}</p>
+          <div class="hero__actions">
+            <a class="key key--primary" href="./index.html#directory">Open full directory</a>
+            <a class="action-link" href="./index.html#vram-calculator">Check VRAM fit</a>
+          </div>
         </div>
       </div>
     </section>
@@ -570,9 +570,9 @@ def build_subpage(
                 <th>Model</th>
                 <th>Parameters</th>
                 <th>Context</th>
-                <th>VRAM (Q4)</th>
+                <th>Memory Q4</th>
                 <th>License</th>
-                <th>Use cases &amp; runtime</th>
+                <th>Use cases and runtime</th>
               </tr>
             </thead>
             <tbody>
@@ -604,7 +604,6 @@ def build_all() -> None:
     pages: dict[str, str] = {}
     pages["index.html"] = build_index(models)
 
-    # 1. Best open source LLM
     best_ids = [
         "deepseek-r1",
         "deepseek-v3-1",
@@ -626,51 +625,48 @@ def build_all() -> None:
         filename="best-open-source-llm.html",
         title="Best Open Source LLM in 2026: Ranked by Hardware & Workload",
         description="Find the best open source LLM for coding, reasoning, RAG, multimodal vision, and local 24 GB GPUs. Side-by-side specs for DeepSeek, Qwen3, Llama 4, Gemma 3, and gpt-oss.",
-        h1="Best open source LLM by workload and GPU tier",
-        lede="There is no single winner across every hardware budget. Pick the strongest open-weight model for your exact GPU memory, latency target, and commercial license requirements.",
-        eyebrow="Selection guide · Best open source LLM",
+        h1="Best open source LLM by workload",
+        lede="Pick the strongest open-weight model for your GPU memory, latency target, and commercial license terms.",
         filtered_models=best_models,
         sections_html="""    <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>Category winners at a glance</h2>
+          <h2>Category picks</h2>
         </div>
         <div class="card-grid">
-          <div class="card">
+          <div class="cut card">
             <h3>Frontier reasoning cluster</h3>
-            <p><strong>DeepSeek-R1</strong> and <strong>DeepSeek-V3.1</strong> deliver top math, logic, and code generation under the MIT license when you have multi-GPU H100 or B200 capacity.</p>
+            <p><strong>DeepSeek-R1</strong> and <strong>DeepSeek-V3.1</strong> lead on math, logic, and code generation under the MIT license on multi-GPU H100 or B200 clusters.</p>
           </div>
-          <div class="card">
-            <h3>Best single 24 GB GPU model</h3>
+          <div class="cut card">
+            <h3>Single 24 GB GPU</h3>
             <p><strong>Qwen3-32B</strong> handles general chat, multilingual work, and coding on one RTX 3090 or RTX 4090 at 4-bit quantization under Apache 2.0.</p>
           </div>
-          <div class="card">
-            <h3>Best local coding agent</h3>
+          <div class="cut card">
+            <h3>Local coding agent</h3>
             <p><strong>Devstral Small (24B)</strong> and <strong>Qwen2.5-Coder-32B</strong> pair low latency with multi-file editing and fill-in-the-middle completion.</p>
           </div>
-          <div class="card">
-            <h3>Best long-context RAG</h3>
-            <p><strong>Llama 4 Scout</strong> stretches context to 10M tokens on a single quantized 80 GB GPU, while <strong>Llama 4 Maverick</strong> handles 1M tokens with multimodal inputs.</p>
+          <div class="cut card">
+            <h3>Long-context RAG</h3>
+            <p><strong>Llama 4 Scout</strong> stretches context to 10M tokens on one quantized 80 GB GPU, while <strong>Llama 4 Maverick</strong> handles 1M tokens with vision.</p>
           </div>
         </div>
       </div>
     </section>""",
     )
 
-    # 2. Free large language models
     free_commercial = [m for m in models if m["license_tier"] in ("permissive-oss", "community-commercial")]
     pages["free-large-language-models.html"] = build_subpage(
         filename="free-large-language-models.html",
         title="Free Large Language Models (2026): Self-Hosted & Commercial-Ready",
         description="Directory of 24 free large language models you can download, self-host, and run with zero API token fees under Apache 2.0, MIT, Llama, and Gemma licenses.",
-        h1="Free large language models you can self-host",
-        lede="Every model listed here has free downloadable weights and allows commercial deployment either without restrictions (Apache 2.0 and MIT) or under permissive community terms.",
-        eyebrow="Zero API fees · Free large language models",
+        h1="Free large language models to self-host",
+        lede="Every model listed here has free downloadable weights and allows commercial deployment under Apache 2.0, MIT, or community terms.",
         filtered_models=free_commercial,
         sections_html="""    <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>How free self-hosted LLMs compare to paid APIs</h2>
+          <h2>Self-hosted weights vs paid APIs</h2>
           <p>Downloading weights removes per-token billing, vendor rate limits, and third-party data retention. Your cost shifts to local electricity or rented GPU hours, which becomes cheaper than commercial APIs once a team runs steady batch jobs or private code assistants.</p>
         </div>
         <pre><code># Run a free Apache 2.0 model locally in two commands
@@ -680,35 +676,33 @@ ollama run qwen3:8b</code></pre>
     </section>""",
     )
 
-    # 3. Local LLMs by VRAM
     local_models = sorted([m for m in models if m["vram_q4_gb"] <= 80], key=lambda x: x["vram_q4_gb"])
     pages["local-llms-by-vram.html"] = build_subpage(
         filename="local-llms-by-vram.html",
         title="Local Open Source LLMs by VRAM: 8 GB, 16 GB, 24 GB, 48 GB & 80 GB",
         description="Match open source LLMs to your exact GPU VRAM or Apple Silicon unified memory. Tested 4-bit and FP16 sizing for laptops, RTX 4090, and single H100 servers.",
-        h1="Local open source LLMs by VRAM tier",
-        lede="Memory bandwidth and VRAM capacity decide which models run smoothly on your machine. These 4-bit estimates leave practical headroom for context KV cache.",
-        eyebrow="Hardware sizing · Local LLMs",
+        h1="Local open source LLMs by VRAM",
+        lede="Memory bandwidth and VRAM capacity decide which models run smoothly on your machine, leaving headroom for context KV cache.",
         filtered_models=local_models,
         sections_html="""    <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>Quick VRAM rule of thumb</h2>
+          <h2>Quick VRAM guide</h2>
         </div>
         <div class="card-grid">
-          <div class="card">
-            <h3>8 GB VRAM (laptops)</h3>
+          <div class="cut card">
+            <h3>8 GB VRAM</h3>
             <p>Run 4B to 8B models at Q4_K_M: <strong>Gemma 3 4B</strong>, <strong>Qwen3-8B</strong>, and <strong>Llama 3.1 8B</strong>.</p>
           </div>
-          <div class="card">
-            <h3>16 GB VRAM (mid-range GPU / 24 GB Mac)</h3>
+          <div class="cut card">
+            <h3>16 GB VRAM</h3>
             <p>Step up to 12B to 24B models: <strong>gpt-oss-20b</strong>, <strong>Phi-4 (14B)</strong>, <strong>Gemma 3 12B</strong>, and <strong>Mistral Small 3.1 (24B)</strong>.</p>
           </div>
-          <div class="card">
-            <h3>24 GB VRAM (RTX 3090 / 4090)</h3>
-            <p>Sweet spot for dense 24B to 32B models: <strong>Qwen3-32B</strong>, <strong>DeepSeek-R1-Distill-Qwen-32B</strong>, <strong>Gemma 3 27B</strong>, and <strong>Devstral Small</strong>.</p>
+          <div class="cut card">
+            <h3>24 GB VRAM</h3>
+            <p>Dense 24B to 32B tier: <strong>Qwen3-32B</strong>, <strong>DeepSeek-R1-Distill-Qwen-32B</strong>, <strong>Gemma 3 27B</strong>, and <strong>Devstral Small</strong>.</p>
           </div>
-          <div class="card">
+          <div class="cut card">
             <h3>48 GB to 80 GB VRAM</h3>
             <p>Fits 70B dense and 100B+ MoE models: <strong>Llama 3.3 70B</strong>, <strong>GLM-4.5-Air</strong>, <strong>gpt-oss-120b</strong>, and <strong>Llama 4 Scout</strong>.</p>
           </div>
@@ -717,35 +711,31 @@ ollama run qwen3:8b</code></pre>
     </section>""",
     )
 
-    # 4. Coding LLMs
     coding_models = [m for m in models if "coding" in m["primary_use_cases"] or m["capabilities"]["coding"]]
     pages["open-source-coding-llms.html"] = build_subpage(
         filename="open-source-coding-llms.html",
         title="Best Open Source Coding LLMs (2026): Local IDE & Agentic Models",
         description="Compare open source LLMs for coding, autocomplete, and repository-scale software agents: Qwen3-Coder, DeepSeek-V3.1, Devstral Small, Qwen2.5-Coder, and Kimi K2.",
-        h1="Open source coding LLMs for IDE and agent workflows",
-        lede="Coding workloads split into two different jobs: fast low-latency inline autocomplete (dense 8B to 32B models) and multi-file agentic refactoring (large MoE or dedicated agent models).",
-        eyebrow="Software engineering · Coding LLMs",
+        h1="Open source coding LLMs",
+        lede="Pair fast dense 8B to 32B models with inline IDE autocomplete, or run large MoE models for multi-file refactoring.",
         filtered_models=coding_models,
         sections_html="""    <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>Pairing a coding model with your editor</h2>
-          <p>Use Continue, Cline, Aider, or OpenCode pointed at a local Ollama or vLLM OpenAI-compatible endpoint (<code>http://localhost:11434/v1</code> or <code>http://localhost:8000/v1</code>). Dense 24B to 32B models keep latency under a second for autocomplete, while MoE models handle multi-file diffs and terminal debugging.</p>
+          <h2>Connecting a coding model to your editor</h2>
+          <p>Point Continue, Cline, Aider, or OpenCode at a local Ollama or vLLM OpenAI-compatible endpoint (<code>http://localhost:11434/v1</code> or <code>http://localhost:8000/v1</code>). Dense 24B to 32B models keep latency under a second for autocomplete, while MoE models handle multi-file diffs and terminal debugging.</p>
         </div>
       </div>
     </section>""",
     )
 
-    # 5. Reasoning LLMs
     reasoning_models = [m for m in models if m["capabilities"]["reasoning"]]
     pages["open-source-reasoning-llms.html"] = build_subpage(
         filename="open-source-reasoning-llms.html",
         title="Best Open Source Reasoning LLMs (2026): DeepSeek-R1, Qwen3, GLM-4.5 & gpt-oss",
         description="Compare open-weight reasoning and math LLMs with chain-of-thought and hybrid thinking modes, from 8B laptop models to 671B clusters.",
         h1="Open source reasoning LLMs",
-        lede="Reasoning models allocate extra inference tokens to verify math, code logic, and multi-step planning before writing the final answer.",
-        eyebrow="Chain of thought · Reasoning LLMs",
+        lede="Reasoning models spend extra inference tokens verifying math, code logic, and multi-step plans before answering.",
         filtered_models=reasoning_models,
         sections_html="""    <section class="section">
       <div class="container">
@@ -757,28 +747,26 @@ ollama run qwen3:8b</code></pre>
     </section>""",
     )
 
-    # 6. Licenses
     pages["open-source-llm-licenses.html"] = build_subpage(
         filename="open-source-llm-licenses.html",
         title="Open Source LLM Licenses Explained: Apache 2.0, MIT, Llama & Gemma",
         description="Compare commercial terms across open source LLM licenses. Understand Apache 2.0, MIT, Llama Community MAU caps, Gemma terms, Modified MIT, and CC-BY-NC.",
         h1="Open source LLM licenses explained",
-        lede="Before deploying a free large language model in production, verify whether its license is standard OSI-approved Apache 2.0 or MIT, a community license with commercial clauses, or research-only.",
-        eyebrow="Compliance & legal · LLM licensing",
+        lede="Check whether a model uses OSI-approved Apache 2.0 or MIT, a community license with commercial clauses, or research-only terms.",
         filtered_models=models,
         sections_html="""    <section class="section">
       <div class="container">
         <div class="card-grid">
-          <div class="card">
-            <h3>Permissive OSS (Apache 2.0 / MIT)</h3>
-            <p>Allows commercial hosting, fine-tuning, distillation, and redistribution with copyright notice. Apache 2.0 adds an explicit patent grant.</p>
+          <div class="cut card">
+            <h3>Permissive OSS</h3>
+            <p>Apache 2.0 and MIT allow commercial hosting, fine-tuning, distillation, and redistribution with copyright notice. Apache 2.0 adds an explicit patent grant.</p>
           </div>
-          <div class="card">
-            <h3>Community Commercial</h3>
+          <div class="cut card">
+            <h3>Community commercial</h3>
             <p>Llama Community, Gemma, and Modified MIT allow commercial products for most organizations, while adding clauses such as Meta's 700M monthly active user threshold or restrictions on training competing base models.</p>
           </div>
-          <div class="card">
-            <h3>Research / Non-Commercial</h3>
+          <div class="cut card">
+            <h3>Research only</h3>
             <p>Mistral Research License (MRL) and CC-BY-NC-4.0 allow free evaluation and academic work, while commercial production requires a separate enterprise agreement.</p>
           </div>
         </div>
@@ -786,33 +774,31 @@ ollama run qwen3:8b</code></pre>
     </section>""",
     )
 
-    # 7. Self-hosted inference
     pages["self-hosted-llm-inference.html"] = build_subpage(
         filename="self-hosted-llm-inference.html",
         title="Self-Hosted LLM Inference: Ollama vs llama.cpp vs vLLM vs SGLang",
         description="Choose the right serving engine for open source LLMs. Compare Ollama, llama.cpp, vLLM, and SGLang by throughput, quantization format, and hardware support.",
-        h1="Self-hosted LLM inference engines compared",
-        lede="The same open-weight model behaves very differently depending on the runtime. Pick local GGUF runners for single-user workstations and PagedAttention servers for concurrent API traffic.",
-        eyebrow="Deployment · Serving runtimes",
+        h1="Self-hosted LLM inference engines",
+        lede="Pick local GGUF runners for single-user workstations and PagedAttention servers for concurrent API traffic.",
         filtered_models=[m for m in models if "vLLM" in m["runtimes"]][:12],
         sections_html="""    <section class="section">
       <div class="container">
         <div class="card-grid">
-          <div class="card">
-            <h3>Ollama &amp; LM Studio</h3>
+          <div class="cut card">
+            <h3>Ollama and LM Studio</h3>
             <p>Fastest path on macOS, Linux, and Windows desktops. Pulls GGUF weights in one command and exposes a local OpenAI-compatible API.</p>
           </div>
-          <div class="card">
+          <div class="cut card">
             <h3>llama.cpp</h3>
-            <p>Low-level C++ engine behind Ollama with fine-grained control over CPU/GPU layer offloading, KV cache quantization, and speculative decoding.</p>
+            <p>Low-level C++ engine behind Ollama with direct control over CPU and GPU layer offloading, KV cache quantization, and speculative decoding.</p>
           </div>
-          <div class="card">
+          <div class="cut card">
             <h3>vLLM</h3>
             <p>Production GPU server with PagedAttention, continuous batching, AWQ/FP8/MXFP4 kernels, and tensor parallelism across multi-GPU nodes.</p>
           </div>
-          <div class="card">
+          <div class="cut card">
             <h3>SGLang</h3>
-            <p>High-throughput serving runtime featuring RadixAttention prefix caching for multi-turn agent loops, structured JSON outputs, and large MoE clusters.</p>
+            <p>High-throughput serving runtime using RadixAttention prefix caching for multi-turn agent loops, structured JSON outputs, and large MoE clusters.</p>
           </div>
         </div>
         <pre><code># Serve an Apache 2.0 model with an OpenAI-compatible endpoint using vLLM
@@ -824,7 +810,6 @@ vllm serve Qwen/Qwen3-32B --tensor-parallel-size 1 --max-model-len 32768</code><
     for fname, content in pages.items():
         (DOCS / fname).write_text(content, encoding="utf-8")
 
-    # sitemap.xml
     urls_xml = []
     for fname in pages:
         loc = f"{BASE_URL}/" if fname == "index.html" else f"{BASE_URL}/{fname}"
@@ -844,11 +829,9 @@ vllm serve Qwen/Qwen3-32B --tensor-parallel-size 1 --max-model-len 32768</code><
     )
     (DOCS / "sitemap.xml").write_text(sitemap, encoding="utf-8")
 
-    # robots.txt
     robots = f"User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\n"
     (DOCS / "robots.txt").write_text(robots, encoding="utf-8")
 
-    # llms.txt (root + docs)
     llms_lines = [
         "# Open Source LLMs Directory (developer-assistants/open-source-llms)",
         "",

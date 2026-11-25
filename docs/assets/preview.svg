@@ -1,29 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <rect width="1200" height="630" fill="#faf9f5"/>
-  <rect x="48" y="48" width="1104" height="534" rx="20" fill="#ffffff" stroke="#e4e2d9" stroke-width="2"/>
-  <rect x="96" y="96" width="230" height="36" rx="18" fill="#e6f4f1"/>
-  <text x="116" y="120" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="600" fill="#0f766e">DEVELOPER-ASSISTANTS</text>
-  <text x="96" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="60" font-weight="700" fill="#141413">Open Source LLMs</text>
-  <text x="96" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="30" fill="#52524c">26 Free Large Language Models Compared by VRAM, License &amp; Task</text>
-  <rect x="96" y="328" width="240" height="118" rx="12" fill="#faf9f5" stroke="#e4e2d9" stroke-width="1.5"/>
-  <text x="120" y="370" font-family="ui-monospace, monospace" font-size="38" font-weight="700" fill="#0f766e">26</text>
-  <text x="120" y="405" font-family="system-ui, sans-serif" font-size="17" fill="#52524c">Verified open models</text>
-  <text x="120" y="428" font-family="ui-monospace, monospace" font-size="13" fill="#78756a">DeepSeek, Qwen, Llama, Gemma</text>
+  <rect width="1200" height="630" fill="#f7f9fc"/>
+  <rect x="48" y="48" width="1104" height="534" rx="14" fill="#ffffff" stroke="#d5dbe6" stroke-width="2"/>
+  <text x="96" y="122" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="600" fill="#2563eb">developer-assistants / open-source-llms</text>
+  <text x="96" y="205" font-family="system-ui, -apple-system, sans-serif" font-size="60" font-weight="600" fill="#181c29">Open source LLMs compared</text>
+  <text x="96" y="262" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#464d61">26 free large language models by VRAM, license, context, and runtime</text>
+  <rect x="96" y="324" width="236" height="120" rx="8" fill="#f2f5fa" stroke="#d5dbe6" stroke-width="1.5"/>
+  <text x="120" y="376" font-family="system-ui, sans-serif" font-size="44" font-weight="600" fill="#2563eb">26</text>
+  <text x="120" y="414" font-family="system-ui, sans-serif" font-size="17" fill="#464d61">Verified open models</text>
 
-  <rect x="360" y="328" width="240" height="118" rx="12" fill="#faf9f5" stroke="#e4e2d9" stroke-width="1.5"/>
-  <text x="384" y="370" font-family="ui-monospace, monospace" font-size="38" font-weight="700" fill="#141413">15</text>
-  <text x="384" y="405" font-family="system-ui, sans-serif" font-size="17" fill="#52524c">Apache 2.0 &amp; MIT</text>
-  <text x="384" y="428" font-family="ui-monospace, monospace" font-size="13" fill="#78756a">Commercial-ready weights</text>
+  <rect x="356" y="324" width="236" height="120" rx="8" fill="#f2f5fa" stroke="#d5dbe6" stroke-width="1.5"/>
+  <text x="380" y="376" font-family="system-ui, sans-serif" font-size="44" font-weight="600" fill="#181c29">15</text>
+  <text x="380" y="414" font-family="system-ui, sans-serif" font-size="17" fill="#464d61">Apache 2.0 and MIT</text>
 
-  <rect x="624" y="328" width="240" height="118" rx="12" fill="#faf9f5" stroke="#e4e2d9" stroke-width="1.5"/>
-  <text x="648" y="370" font-family="ui-monospace, monospace" font-size="38" font-weight="700" fill="#141413">4B-1T</text>
-  <text x="648" y="405" font-family="system-ui, sans-serif" font-size="17" fill="#52524c">Parameter range</text>
-  <text x="648" y="428" font-family="ui-monospace, monospace" font-size="13" fill="#78756a">Laptops to multi-GPU clusters</text>
+  <rect x="616" y="324" width="236" height="120" rx="8" fill="#f2f5fa" stroke="#d5dbe6" stroke-width="1.5"/>
+  <text x="640" y="376" font-family="system-ui, sans-serif" font-size="44" font-weight="600" fill="#181c29">13</text>
+  <text x="640" y="414" font-family="system-ui, sans-serif" font-size="17" fill="#464d61">Fit on 24 GB GPU</text>
 
-  <rect x="888" y="328" width="216" height="118" rx="12" fill="#141413"/>
-  <text x="912" y="370" font-family="ui-monospace, monospace" font-size="32" font-weight="700" fill="#14b8a6">CLI + Web</text>
-  <text x="912" y="405" font-family="system-ui, sans-serif" font-size="17" fill="#faf9f5">VRAM Calculator</text>
-  <text x="912" y="428" font-family="ui-monospace, monospace" font-size="13" fill="#a8a69e">models.json · MIT</text>
+  <rect x="876" y="324" width="228" height="120" rx="8" fill="#1c202c"/>
+  <text x="900" y="374" font-family="ui-monospace, Menlo, monospace" font-size="24" font-weight="500" fill="#60a5fa">ollama / vllm</text>
+  <text x="900" y="414" font-family="system-ui, sans-serif" font-size="17" fill="#eef1f7">VRAM calculator + CLI</text>
 
-  <text x="96" y="520" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#52524c">github.com/developer-assistants/open-source-llms</text>
+  <text x="96" y="520" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#464d61">developer-assistants.github.io/open-source-llms</text>
 </svg>
